@@ -5,7 +5,7 @@
 
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 bool JoinStateMachine::CheckTransition(Token token, std::string word) {
   // end of parsing
   if (current_state == right_paren) return false;
@@ -183,4 +183,4 @@ std::string JoinStateMachine::check_column_name(std::string col_name,
   return cname;
 }
 
-}  // namespace tdb
+}  // namespace sdb

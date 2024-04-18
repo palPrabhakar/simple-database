@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <string>
 
-namespace tdb {
+namespace sdb {
 // clang-format off
 enum Data_Type {
     DT_INT,
@@ -27,4 +27,4 @@ struct sSTRING {
 template<typename T>
 Data_Type get_tdb_type();
 // clang-format on
-}  // namespace tdb
+}  // namespace sdb

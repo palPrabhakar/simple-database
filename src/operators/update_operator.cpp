@@ -3,7 +3,7 @@
 #include <iostream>
 #include <numeric>
 
-namespace tdb {
+namespace sdb {
 void UpdateOperator::Execute() {
   if (op) {
     args = op->GetArgResults(tables[0].get());
@@ -19,4 +19,4 @@ void UpdateOperator::Execute() {
     UpdateColumn(col_idx, args, col_type, column_values[i]);
   }
 }
-}  // namespace tdb
+}  // namespace sdb

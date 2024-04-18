@@ -1,6 +1,6 @@
 #include "fsms/insert_state_machine.h"
 
-namespace tdb {
+namespace sdb {
 bool InsertStateMachine::CheckTransition(Token token, std::string word) {
   switch (token) {
     case INSERT:
@@ -113,4 +113,4 @@ bool InsertStateMachine::check_end_state() {
   return false;
 }
 
-}  // namespace tdb
+}  // namespace sdb

@@ -9,7 +9,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 
 class UpdateStateMachine : StateMachine {
  public:
@@ -64,4 +64,4 @@ class UpdateStateMachine : StateMachine {
   bool check_where_state();
   bool check_end_state();
 };
-}  // namespace tdb
+}  // namespace sdb

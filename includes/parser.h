@@ -7,7 +7,7 @@
 #include "operators/operator.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 
 using Token_Vector = std::vector<std::pair<Token, std::string>>;
 using Operator_Ptr = std::unique_ptr<Operator>;
@@ -25,4 +25,4 @@ Operator_Vec ParseUpdateQuery(Token_Vector &tokens, size_t &index);
 Operator_Vec ParseSelectQuery(Token_Vector &tokens, size_t &index);
 Operator_Vec ParseJoinClause(Token_Vector &tokens, size_t &index);
 
-}  // namespace tdb
+}  // namespace sdb

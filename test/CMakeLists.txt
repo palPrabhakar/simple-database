@@ -4,7 +4,7 @@ find_package(GTest REQUIRED)
 
 add_executable(test parser_test.cpp operator_test.cpp)
 
-target_link_libraries(test PRIVATE tdb GTest::gtest_main)
+target_link_libraries(test PRIVATE sdb GTest::gtest_main)
 
 include(GoogleTest)
 

@@ -9,7 +9,7 @@
 #include "operator.h"
 #include "parser.h"
 
-namespace tdb {
+namespace sdb {
 class UpdateOperator : public Operator {
  public:
   UpdateOperator(std::vector<std::string> cnames,
@@ -58,4 +58,4 @@ class UpdateOperator : public Operator {
     }
   }
 };
-}  // namespace tdb
+}  // namespace sdb

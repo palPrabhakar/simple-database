@@ -7,7 +7,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 class ExprStateMachine : StateMachine {
  public:
   ExprStateMachine() {
@@ -54,4 +54,4 @@ class ExprStateMachine : StateMachine {
   bool check_left_paren_state();
   bool check_right_paren_state();
 };
-}  // namespace tdb
+}  // namespace sdb

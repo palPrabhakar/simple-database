@@ -7,7 +7,7 @@
 #include "data_types.h"
 #include "table.h"
 
-namespace tdb {
+namespace sdb {
 Table_Vec BinaryOperator::GetData() {
   assert(tables.size() == 1 && "Binary Operator: Tables size != 1\n");
 
@@ -47,4 +47,4 @@ std::unique_ptr<BaseColumn> BinaryOperator::GetColumn(size_t idx,
   }
 }
 
-}  // namespace tdb
+}  // namespace sdb

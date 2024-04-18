@@ -6,7 +6,7 @@
 #include <type_traits>
 #include <vector>
 
-namespace tdb {
+namespace sdb {
 class BaseColumn {
  public:
   virtual ~BaseColumn() = default;
@@ -131,4 +131,4 @@ class StringColumn : public Column<std::string> {
   }
 };
 
-}  // namespace tdb
+}  // namespace sdb

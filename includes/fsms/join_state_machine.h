@@ -6,7 +6,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 class JoinStateMachine : StateMachine {
  public:
   JoinStateMachine() {
@@ -64,4 +64,4 @@ class JoinStateMachine : StateMachine {
 
   std::string check_column_name(std::string col_name, std::string table_name);
 };
-}  // namespace tdb
+}  // namespace sdb

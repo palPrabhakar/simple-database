@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-namespace tdb {
+namespace sdb {
 bool SelectStateMachine::CheckTransition(Token token, std::string word) {
   switch (token) {
     case SELECT:
@@ -171,4 +171,4 @@ bool SelectStateMachine::check_end_state() {
   return false;
 }
 
-}  // namespace tdb
+}  // namespace sdb

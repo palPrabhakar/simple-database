@@ -10,7 +10,7 @@
 #include "data_types.h"
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 // Join on Equality
 class JoinOperator : public Operator {
  public:
@@ -104,4 +104,4 @@ std::vector<std::pair<size_t, size_t>> ProcessTables(BaseColumn *left,
                                                      BaseColumn *right,
                                                      Data_Type type);
 
-}  // namespace tdb
+}  // namespace sdb

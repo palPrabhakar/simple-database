@@ -7,7 +7,7 @@
 #include "data_types.h"
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 class InsertOperator : public Operator {
  public:
   InsertOperator(std::vector<std::string> col_values)
@@ -48,4 +48,4 @@ class InsertOperator : public Operator {
     }
   }
 };
-}  // namespace tdb
+}  // namespace sdb

@@ -10,7 +10,7 @@
 #include "data_types.h"
 #include "json/json.h"
 
-namespace tdb {
+namespace sdb {
 
 template <>
 std::unique_ptr<BaseColumn> GetColumn<int64_t>(const Json::Value &data,
@@ -99,8 +99,8 @@ void ReadOperator::ReadTable() {
   std::vector<std::future<std::unique_ptr<BaseColumn>>> tasks;
   for (size_t i = 0; i < col_names.size(); ++i) {
     tasks.push_back(std::async(std::launch::async, GetColumnValues,
-                                  data["data"][col_names[i]], col_types[i],
-                                  nrows));
+                               data["data"][col_names[i]], col_types[i],
+                               nrows));
   }
 
   for (auto &task : tasks) {
@@ -126,4 +126,4 @@ std::unique_ptr<BaseColumn> GetColumnValues(const Json::Value &data,
       throw std::runtime_error("Invalid Type\n");
   }
 }
-}  // namespace tdb
+}  // namespace sdb

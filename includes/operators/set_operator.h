@@ -7,7 +7,7 @@
 
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 class UnionOperator : public BinaryOperator {
  public:
   UnionOperator(std::unique_ptr<BinaryOperator> &&lhs,
@@ -76,4 +76,4 @@ class IntersectionOperator : public BinaryOperator {
   }
 };
 
-}  // namespace tdb
+}  // namespace sdb

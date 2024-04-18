@@ -8,7 +8,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 class SelectStateMachine : StateMachine {
  public:
   SelectStateMachine() {
@@ -72,4 +72,4 @@ class SelectStateMachine : StateMachine {
   bool check_end_state();
   bool check_join_state();
 };
-}  // namespace tdb
+}  // namespace sdb

@@ -1,6 +1,6 @@
 #include "operators/filter_operator.h"
 
-namespace tdb {
+namespace sdb {
 void EqualityFilter::FilterStrings(BaseColumn *ptr, std::string val,
                                    size_t row_size) {
   StringColumn *scols = static_cast<StringColumn *>(ptr);
@@ -112,4 +112,4 @@ void GreaterEqualFilter::FilterDouble(BaseColumn *ptr, double val,
     if ((*icols)[i] >= val) this->arg_results.push_back(i);
   }
 }
-}  // namespace tdb
+}  // namespace sdb

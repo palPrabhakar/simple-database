@@ -7,7 +7,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 class InsertStateMachine : StateMachine {
  public:
   InsertStateMachine() {
@@ -51,4 +51,4 @@ class InsertStateMachine : StateMachine {
   bool check_col_val_state(std::string word);
   bool check_end_state();
 };
-}  // namespace tdb
+}  // namespace sdb

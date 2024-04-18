@@ -9,7 +9,7 @@
 #include "columns.h"
 #include "data_types.h"
 
-namespace tdb {
+namespace sdb {
 class Table {
   // Table class cannot be copied
   // Since unique_ptr cannot be copied
@@ -90,4 +90,4 @@ class Table {
   std::vector<Data_Type> type_col;
   std::vector<std::unique_ptr<BaseColumn>> columns;
 };
-}  // namespace tdb
+}  // namespace sdb

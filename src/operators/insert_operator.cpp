@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-namespace tdb {
+namespace sdb {
 void InsertOperator::Execute() {
   assert(tables.size() == 1 && "InsertOperator: Tables size != 1\n");
 
@@ -23,4 +23,4 @@ void InsertOperator::Execute() {
   auto row_size = tables[0]->GetRowSize();
   tables[0]->SetRowSize(++row_size);
 }
-}  // namespace tdb
+}  // namespace sdb

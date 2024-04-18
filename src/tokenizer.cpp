@@ -4,7 +4,7 @@
 #include <cctype>
 #include <iostream>
 
-namespace tdb {
+namespace sdb {
 // Every token needs to separated by whitespace
 std::vector<std::pair<Token, std::string>> ReadInputQuery(
     std::string input_query) {
@@ -28,4 +28,4 @@ std::vector<std::pair<Token, std::string>> ReadInputQuery(
   return tokens;
 }
 
-}  // namespace tdb
+}  // namespace sdb

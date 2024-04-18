@@ -12,7 +12,7 @@
 #include "data_types.h"
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 class ReadOperator : public Operator {
  public:
   ReadOperator(std::string fname) {
@@ -40,4 +40,4 @@ std::unique_ptr<BaseColumn> GetColumnValues(const Json::Value &data,
 template <typename T>
 std::unique_ptr<BaseColumn> GetColumn(const Json::Value &data,
                                       const size_t size);
-}  // namespace tdb
+}  // namespace sdb

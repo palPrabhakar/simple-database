@@ -5,7 +5,7 @@
 
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 
 template <class A>
 class FilterOperator : public BinaryOperator {
@@ -126,4 +126,4 @@ class GreaterEqualFilter : public FilterOperator<GreaterEqualFilter> {
   void FilterDouble(BaseColumn *ptr, double val, size_t row_size);
 };
 
-}  // namespace tdb
+}  // namespace sdb

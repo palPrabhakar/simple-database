@@ -9,7 +9,7 @@
 #include "operators/filter_operator.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 bool ExprStateMachine::CheckTransition(Token token, std::string word) {
   // if the current state is righ_paren
   // then Expr has been parsed or
@@ -148,4 +148,4 @@ BinaryOp_Ptr ExprStateMachine::GetOperator() {
       throw std::runtime_error("ESM: Invalid Operator\n");
   }
 }
-}  // namespace tdb
+}  // namespace sdb

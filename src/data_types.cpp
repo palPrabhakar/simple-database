@@ -4,7 +4,7 @@
 #include <string>
 #include <type_traits>
 
-namespace tdb {
+namespace sdb {
 template <typename T>
 Data_Type get_tdb_type() {
   if constexpr (std::is_same_v<T, int64_t>) {
@@ -17,4 +17,4 @@ Data_Type get_tdb_type() {
 
   return DT_INVALID;
 }
-}  // namespace tdb
+}  // namespace sdb

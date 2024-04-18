@@ -7,7 +7,7 @@
 #include "data_types.h"
 #include "table.h"
 
-namespace tdb {
+namespace sdb {
 using Table_Vec = std::vector<std::unique_ptr<Table>>;
 using Table_Ptr = std::unique_ptr<Table>;
 
@@ -55,4 +55,4 @@ class BinaryOperator : public Operator {
   }
 };
 
-}  // namespace tdb
+}  // namespace sdb

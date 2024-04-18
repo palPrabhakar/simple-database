@@ -10,7 +10,7 @@
 
 #include "json/json.h"
 
-namespace tdb {
+namespace sdb {
 void StdOutWriter::WriteTable() {
   auto ncols = tables[0]->GetColumnSize();
   auto nrows = tables[0]->GetRowSize();
@@ -100,4 +100,4 @@ void FileWriter::WriteTable() {
   writer->write(obj, &ofs);
 }
 
-}  // namespace tdb
+}  // namespace sdb

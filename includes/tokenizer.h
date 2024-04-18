@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace tdb {
+namespace sdb {
 // clang-format off
 enum Token {
     TEXT,
@@ -69,4 +69,4 @@ const std::unordered_map<std::string, Token> token_lookup = {
 
 std::vector<std::pair<Token, std::string>> ReadInputQuery(
     std::string input_query);
-}  // namespace tdb
+}  // namespace sdb

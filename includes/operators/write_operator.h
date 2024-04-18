@@ -12,7 +12,7 @@
 #include "operator.h"
 #include "table.h"
 
-namespace tdb {
+namespace sdb {
 
 template <typename T>
 class WriteOperator : public Operator {
@@ -64,4 +64,4 @@ class FileWriter : public WriteOperator<FileWriter> {
     }
   }
 };
-}  // namespace tdb
+}  // namespace sdb

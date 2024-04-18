@@ -5,7 +5,7 @@
 #include "parser.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 
 using Operator_Ptr = std::unique_ptr<Operator>;
 using BinaryOp_Ptr = std::unique_ptr<BinaryOperator>;
@@ -19,4 +19,4 @@ class StateMachine {
   virtual bool EOP() = 0;
   virtual bool CheckErrorState() = 0;
 };
-}  // namespace tdb
+}  // namespace sdb

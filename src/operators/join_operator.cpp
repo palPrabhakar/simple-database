@@ -5,7 +5,7 @@
 #include "data_types.h"
 #include "operators/operator.h"
 
-namespace tdb {
+namespace sdb {
 std::vector<std::pair<size_t, size_t>> ProcessTables(BaseColumn *left,
                                                      BaseColumn *right,
                                                      Data_Type type) {
@@ -97,4 +97,4 @@ std::unique_ptr<BaseColumn> JoinOperator::GetColumn(BaseColumn *column,
   }
 }
 
-}  // namespace tdb
+}  // namespace sdb

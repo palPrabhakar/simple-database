@@ -1,6 +1,6 @@
 #include "fsms/update_state_machine.h"
 
-namespace tdb {
+namespace sdb {
 bool UpdateStateMachine::CheckTransition(Token token, std::string word) {
   switch (token) {
     case UPDATE:
@@ -146,4 +146,4 @@ bool UpdateStateMachine::check_end_state() {
   return false;
 }
 
-}  // namespace tdb
+}  // namespace sdb

@@ -5,7 +5,7 @@
 
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 class ProjectOperator : public Operator {
  public:
   ProjectOperator(std::vector<std::string> col_names)
@@ -27,4 +27,4 @@ class ProjectOperator : public Operator {
 
   void ProcessTable();
 };
-}  // namespace tdb
+}  // namespace sdb

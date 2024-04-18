@@ -5,7 +5,7 @@
 #include "data_types.h"
 #include "operator.h"
 
-namespace tdb {
+namespace sdb {
 class CreateOperator : public Operator {
  public:
   CreateOperator(std::string tbl_name, std::vector<std::string> col_name,
@@ -30,4 +30,4 @@ class CreateOperator : public Operator {
   std::vector<std::string> column_names;
   std::vector<Data_Type> column_types;
 };
-}  // namespace tdb
+}  // namespace sdb

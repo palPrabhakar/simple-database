@@ -4,7 +4,7 @@
 
 #include <memory>
 
-namespace tdb {
+namespace sdb {
 void ProjectOperator::ProcessTable() {
   assert(input_tables.size() == 1 && "Project Operator: Tables size != 1\n");
   auto n_rows = input_tables[0]->GetRowSize();
@@ -36,4 +36,4 @@ void ProjectOperator::ProcessTable() {
     output_tables[0]->SetColumn(col_idx++, std::move(ptr));
   }
 }
-}  // namespace tdb
+}  // namespace sdb

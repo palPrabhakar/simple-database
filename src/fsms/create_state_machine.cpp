@@ -1,6 +1,6 @@
 #include "fsms/create_state_machine.h"
 
-namespace tdb {
+namespace sdb {
 
 bool CreateStateMachine::CheckTransition(Token token, std::string word) {
   switch (token) {

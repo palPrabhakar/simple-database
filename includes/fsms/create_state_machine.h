@@ -8,7 +8,7 @@
 #include "state_machine.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 class CreateStateMachine : StateMachine {
  public:
   CreateStateMachine() {
@@ -56,4 +56,4 @@ class CreateStateMachine : StateMachine {
   bool check_with_state();
   bool check_end_state();
 };
-}  // namespace tdb
+}  // namespace sdb

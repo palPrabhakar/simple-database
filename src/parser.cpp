@@ -23,7 +23,7 @@
 #include "operators/write_operator.h"
 #include "tokenizer.h"
 
-namespace tdb {
+namespace sdb {
 
 Operator_Ptr ParseWhereClause(Token_Vector &tokens, size_t &index) {
   auto operations = ParseLogicalOP(tokens, ++index);
@@ -333,4 +333,4 @@ Operator_Vec ParseInputQuery(std::string input_query) {
 
   return operators;
 }
-}  // namespace tdb
+}  // namespace sdb

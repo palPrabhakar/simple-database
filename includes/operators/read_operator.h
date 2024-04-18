@@ -17,8 +17,8 @@ class ReadOperator : public Operator {
  public:
   ReadOperator(std::string fname) {
     file_name = std::format(
-        "/home/pal/workspace/terrible-softwares/"
-        "terrible-database/tables/{}.json",
+        "/home/pal/workspace/"
+        "simple-database/tables/{}.json",
         fname);
   }
 

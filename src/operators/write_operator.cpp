@@ -94,7 +94,7 @@ void FileWriter::WriteTable() {
   std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
 
   auto file_path = std::format(
-      "/home/pal/workspace/terrible-softwares/terrible-database/tables/{}.json",
+      "/home/pal/workspace/simple-database/tables/{}.json",
       tables[0]->GetTableName());
   std::ofstream ofs(file_path);
   writer->write(obj, &ofs);

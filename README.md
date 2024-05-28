@@ -52,7 +52,7 @@ for (auto &op : operators) {
 }
 ```
 
-### Select Queries
+### Select Query
 
 ```cpp
 auto operators = sdb::ParseInputQuery(
@@ -67,7 +67,7 @@ for (auto &op : operators) {
 }
 ```
 
-### Join Queries
+### Join Query
 
 ```cpp
 auto operators = sdb::ParseInputQuery(
@@ -83,3 +83,4 @@ for (auto &op : operators) {
 }
 }
 ```
+

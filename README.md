@@ -35,6 +35,7 @@ for (auto &op : operators) {
   op->AddData(std::move(vec));
   op->Execute();
   vec = op->GetData();
+}
 ```
 
 ### Update Query
@@ -80,7 +81,6 @@ for (auto &op : operators) {
   op->AddData(std::move(vec));
   op->Execute();
   vec = op->GetData();
-}
 }
 ```
 

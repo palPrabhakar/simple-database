@@ -25,12 +25,13 @@ class FilterOperator : public BinaryOperator {
  protected:
   std::string col_name;
   std::string value;
-  Data_Type type;
 
   void FilterColumns(const Table *ptr) {
     auto col_idx = ptr->GetColumnIndex(this->col_name);
     auto *col = ptr->GetColumn(col_idx);
+    auto type = ptr->GetColumnType(col_idx);
     auto row_size = ptr->GetRowSize();
+
     try {
       switch (type) {
         case DT_INT:
@@ -43,13 +44,12 @@ class FilterOperator : public BinaryOperator {
           static_cast<A *>(this)->FilterStrings(col, value, row_size);
           break;
         default:
-          std::cout << "type: " << type << std::endl;
           throw std::runtime_error(
               "Filter Op: Invalid column type. Column name: " + col_name +
               "\n");
       }
     } catch (std::invalid_argument const &ex) {
-      std::cout << "Filter Operator: Value and Column type mismatch\n";
+        throw ex;
     }
   }
 };

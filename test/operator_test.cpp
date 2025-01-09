@@ -13,27 +13,9 @@ TEST(OperatorTest, ReadOperator) {
   GTEST_SKIP();
   sdb::ReadOperator read_op("large_table");
   read_op.Execute();
-
-  // auto un_op =
-  //     sdb::UnionOperator(std::make_unique<sdb::GreaterThanFilter>("age",
-  //     "40"),
-  //                        std::make_unique<sdb::EqualityFilter>("name",
-  //                        "John"));
-  // un_op.AddData(read_op.GetData());
-  // un_op.Execute();
-
-  // sdb::EqualityFilter eq_op("age", "44");
-  // eq_op.AddData(read_op.GetData());
-  // eq_op.Execute();
-
-  // sdb::ProjectOperator proj_op({"age"});
-  // proj_op.AddData(un_op.GetData());
-  // proj_op.Execute();
-
   auto write_op = sdb::StdOutWriter();
   write_op.AddData(read_op.GetData());
   write_op.Execute();
-  // EXPECT_NO_THROW(op.ReadTable());
 }
 
 TEST(OperatorTest, TestPipeline) {

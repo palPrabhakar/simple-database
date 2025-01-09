@@ -1,16 +1,15 @@
 #pragma once
 
-#include <json/value.h>
-
-#include <algorithm>
+// #include <json/value.h>
 #include <format>
 #include <memory>
 #include <string>
-#include <vector>
 
 #include "columns.h"
 #include "data_types.h"
+#include "json.hpp"
 #include "operator.h"
+#include "parser.hpp"
 
 namespace sdb {
 class ReadOperator : public Operator {
@@ -35,9 +34,8 @@ class ReadOperator : public Operator {
   void ReadTable();
 };
 
-std::unique_ptr<BaseColumn> GetColumnValues(const Json::Value &data,
-                                            Data_Type type, const size_t size);
+std::unique_ptr<BaseColumn> GetColumnValues(const sjp::Json &data, Data_Type type,
+                                            const size_t size);
 template <typename T>
-std::unique_ptr<BaseColumn> GetColumn(const Json::Value &data,
-                                      const size_t size);
+std::unique_ptr<BaseColumn> GetColumn(const sjp::Json &data, const size_t size);
 }  // namespace sdb

@@ -6,4 +6,4 @@ add_library(sdb ${SOURCE_FILES})
 
 target_include_directories(sdb PUBLIC ${CMAKE_SOURCE_DIR}/includes)
 
-target_link_libraries(sdb jsoncpp_lib)
+target_link_libraries(sdb jsoncpp_lib sjp)

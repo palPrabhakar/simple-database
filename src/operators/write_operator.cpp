@@ -46,7 +46,7 @@ void StdOutWriter::WriteTable() {
   std::cout << "\n";
 }
 
-void FileWriter::WriteTable() {
+void JsonWriter::WriteTable() {
   auto ncols = tables[0]->GetColumnSize();
   auto nrows = tables[0]->GetRowSize();
 
@@ -67,7 +67,7 @@ void FileWriter::WriteTable() {
     auto col_type = tables[0]->GetColumnType(i);
     columns.AppendOrUpdate(sjp::Json::end, col_name);
     types.AppendOrUpdate(sjp::Json::end, col_type);
-    tasks.push_back(std::async(std::launch::async, &FileWriter::GetColumnObj,
+    tasks.push_back(std::async(std::launch::async, &JsonWriter::GetColumnObj,
                                this, i, col_type));
   }
 

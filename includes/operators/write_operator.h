@@ -35,7 +35,7 @@ class StdOutWriter : public WriteOperator<StdOutWriter> {
   void WriteTable();
 };
 
-class FileWriter : public WriteOperator<FileWriter> {
+class JsonWriter : public WriteOperator<JsonWriter> {
  public:
   void WriteTable();
 
@@ -60,7 +60,7 @@ class FileWriter : public WriteOperator<FileWriter> {
       case DT_STRING:
         return GetColumn<StringColumn>(col_idx);
       default:
-        throw std::runtime_error("FileWriter: Invalid type\n");
+        throw std::runtime_error("JsonWriter: Invalid type\n");
     }
   }
 };

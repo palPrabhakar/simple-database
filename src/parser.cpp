@@ -198,7 +198,7 @@ Operator_Vec ParseUpdateQuery(Token_Vector &tokens, size_t &index) {
   operators.push_back(std::make_unique<UpdateOperator>(
       usm.col_names, usm.col_values, std::move(op)));
 
-  operators.push_back(std::make_unique<FileWriter>());
+  operators.push_back(std::make_unique<JsonWriter>());
 
   return operators;
 }
@@ -276,7 +276,7 @@ Operator_Vec ParseCreateQuery(Token_Vector &tokens, size_t &index) {
   operators.push_back(std::make_unique<CreateOperator>(
       csm.table_name, csm.col_names, csm.col_types));
 
-  operators.push_back(std::make_unique<FileWriter>());
+  operators.push_back(std::make_unique<JsonWriter>());
 
   return operators;
 }
@@ -298,7 +298,7 @@ Operator_Vec ParseInsertQuery(Token_Vector &tokens, size_t &index) {
 
   operators.push_back(std::make_unique<ReadOperator>(ism.table_name));
   operators.push_back(std::make_unique<InsertOperator>(ism.col_values));
-  operators.push_back(std::make_unique<FileWriter>());
+  operators.push_back(std::make_unique<JsonWriter>());
 
   return operators;
 }

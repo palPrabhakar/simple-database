@@ -5,7 +5,7 @@ A simple in-memory columnar database.
 Note: A very simple tokenizer implementation. Every token/keyword needs to be whitespace separated.
 
 ## Requirements
-1. [jsoncpp](https://github.com/open-source-parsers/jsoncpp)
+1. [simple-json-parser](https://github.com/palPrabhakar/simple-json-parser)
 
 ## Example Usage
 

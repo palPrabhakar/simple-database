@@ -1,16 +1,16 @@
 #pragma once
 
-#include <json/value.h>
-
 #include <memory>
 #include <stdexcept>
 #include <vector>
 
 #include "columns.h"
 #include "data_types.h"
-#include "json/json.h"
 #include "operator.h"
 #include "table.h"
+
+#include "json.hpp"
+
 
 namespace sdb {
 
@@ -41,17 +41,17 @@ class FileWriter : public WriteOperator<FileWriter> {
 
  private:
   template <typename V>
-  Json::Value GetColumn(size_t col_idx) {
-    Json::Value column(Json::arrayValue);
+  sjp::Json GetColumn(size_t col_idx) {
+    auto json = sjp::JsonBuilder<sjp::JsonType::jarray>();
     auto row_size = tables[0]->GetRowSize();
     auto col_ptr = static_cast<V *>(tables[0]->GetColumn(col_idx));
     for (auto i = 0; i < row_size; ++i) {
-      column.append((*col_ptr)[i]);
+      json.AppendOrUpdate(sjp::Json::end, (*col_ptr)[i]);
     }
-    return column;
+    return json;
   }
 
-  Json::Value GetColumnObj(size_t col_idx, Data_Type type) {
+  sjp::Json GetColumnObj(size_t col_idx, Data_Type type) {
     switch (type) {
       case DT_INT:
         return GetColumn<Int64Column>(col_idx);

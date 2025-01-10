@@ -1,14 +1,12 @@
 #include "operators/write_operator.h"
 
-#include <json/value.h>
-
 #include <format>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <sstream>
 
-#include "json/json.h"
+#include "json.hpp"
 
 namespace sdb {
 void StdOutWriter::WriteTable() {
@@ -52,25 +50,25 @@ void FileWriter::WriteTable() {
   auto ncols = tables[0]->GetColumnSize();
   auto nrows = tables[0]->GetRowSize();
 
-  Json::Value obj;
-  Json::Value schema(Json::objectValue);
+  auto json = sjp::JsonBuilder<sjp::JsonType::jobject>();
 
-  schema["name"] = tables[0]->GetTableName();
-  schema["ncols"] = ncols;
-  schema["nrows"] = nrows;
+  auto schema = sjp::JsonBuilder<sjp::JsonType::jobject>();
+  schema.InsertOrUpdate("name", tables[0]->GetTableName());
+  schema.InsertOrUpdate("ncols", ncols);
+  schema.InsertOrUpdate("nrows", nrows);
 
-  Json::Value columns(Json::arrayValue);
-  Json::Value types(Json::arrayValue);
+  auto columns = sjp::JsonBuilder<sjp::JsonType::jarray>();
+  auto types = sjp::JsonBuilder<sjp::JsonType::jarray>();
 
-  Json::Value data;
-  std::vector<std::future<Json::Value>> tasks;
+  auto data = sjp::JsonBuilder<sjp::JsonType::jobject>();
+  std::vector<std::future<sjp::Json>> tasks;
   for (auto i = 0; i < ncols; ++i) {
     auto col_name = tables[0]->GetColumnName(i);
     auto col_type = tables[0]->GetColumnType(i);
-    columns.append(col_name);
-    types.append(col_type);
-    tasks.push_back(std::async(std::launch::async, &FileWriter::GetColumnObj, this, i, col_type));
-    // data[col_name] = GetColumn(i, col_type);
+    columns.AppendOrUpdate(sjp::Json::end, col_name);
+    types.AppendOrUpdate(sjp::Json::end, col_type);
+    tasks.push_back(std::async(std::launch::async, &FileWriter::GetColumnObj,
+                               this, i, col_type));
   }
 
   for (auto &task : tasks) {
@@ -79,25 +77,20 @@ void FileWriter::WriteTable() {
 
   for (size_t i = 0; i < ncols; ++i) {
     auto col_name = tables[0]->GetColumnName(i);
-    data[col_name] = tasks[i].get();
+    data.InsertOrUpdate(col_name, tasks[i].get());
   }
 
-  schema["columns"] = columns;
-  schema["types"] = types;
-  obj["schema"] = schema;
-  obj["data"] = data;
+  schema.InsertOrUpdate("columns", columns);
+  schema.InsertOrUpdate("types", types);
+  json.InsertOrUpdate("schema", schema);
+  json.InsertOrUpdate("data", data);
 
-  Json::StreamWriterBuilder builder;
-  builder["commentStyle"] = "None";
-  builder["indentation"] = "   ";
 
-  std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
-
-  auto file_path = std::format(
-      "/home/pal/workspace/simple-database/tables/{}.json",
-      tables[0]->GetTableName());
+  auto file_path =
+      std::format("/home/pal/workspace/simple-database/tables/test.json",
+                  tables[0]->GetTableName());
   std::ofstream ofs(file_path);
-  writer->write(obj, &ofs);
+  json.Dump(ofs);
 }
 
 }  // namespace sdb

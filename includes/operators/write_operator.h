@@ -2,18 +2,14 @@
 
 #include <memory>
 #include <stdexcept>
-#include <vector>
 
 #include "columns.h"
 #include "data_types.h"
+#include "json.hpp"
 #include "operator.h"
 #include "table.h"
 
-#include "json.hpp"
-
-
 namespace sdb {
-
 template <typename T>
 class WriteOperator : public Operator {
  public:
@@ -63,5 +59,10 @@ class JsonWriter : public WriteOperator<JsonWriter> {
         throw std::runtime_error("JsonWriter: Invalid type\n");
     }
   }
+};
+
+class FlatWriter : public WriteOperator<FlatWriter> {
+ public:
+  void WriteTable();
 };
 }  // namespace sdb

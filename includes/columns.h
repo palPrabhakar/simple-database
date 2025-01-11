@@ -25,6 +25,7 @@ class BaseColumn {
 template <typename T>
 class Column : public BaseColumn {
  public:
+  using val_type = T;
   Column(size_t nsize) : vec(nsize), n_rows(nsize) {}
   Column(size_t nsize, std::vector<T> &&values) : vec(values), n_rows(nsize) {}
 
@@ -78,7 +79,6 @@ class Column : public BaseColumn {
 
   size_t size() const { return n_rows; }
 
- protected:
   std::vector<T> vec;
   size_t n_rows;
 };

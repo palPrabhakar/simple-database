@@ -7,12 +7,12 @@
 #include "gtest/gtest.h"
 #include "tokenizer.h"
 
-TEST(ParserTest, CreateQueries) {
+TEST(ParserTest, CreateQueriesSuccess) {
   EXPECT_NO_THROW(sdb::ParseInputQuery(
       "Create random_table with col1 int col2 double col3 string"));
+}
 
-  EXPECT_NO_THROW(sdb::ParseInputQuery("Create some_table with col1 int\n"));
-
+TEST(ParserTest, CreateQueriesFailure0) {
   EXPECT_THROW(
       {
         try {
@@ -24,7 +24,9 @@ TEST(ParserTest, CreateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, CreateQueriesFailure1) {
   EXPECT_THROW(
       {
         try {
@@ -36,7 +38,9 @@ TEST(ParserTest, CreateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, CreateQueriesFailure2) {
   EXPECT_THROW(
       {
         try {
@@ -51,7 +55,9 @@ TEST(ParserTest, CreateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, CreateQueriesFailure3) {
   EXPECT_THROW(
       {
         try {
@@ -63,7 +69,9 @@ TEST(ParserTest, CreateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, CreateQueriesFailure4) {
   EXPECT_THROW(
       {
         try {
@@ -77,16 +85,22 @@ TEST(ParserTest, CreateQueries) {
       std::runtime_error);
 }
 
-TEST(ParserTest, InsertQueries) {
+TEST(ParserTest, InsertQueriesSuccess0) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Insert random_table values 100 250 lol"));
+}
 
+TEST(ParserTest, InsertQueriesSuccess1) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Insert some_table values 250.00 very-lol\n"));
+}
 
+TEST(ParserTest, InsertQueriesSuccess2) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Insert some_table values lol1 lol...lol"));
+}
 
+TEST(ParserTest, InsertQueriesSuccess3) {
   EXPECT_THROW(
       {
         try {
@@ -98,7 +112,9 @@ TEST(ParserTest, InsertQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, InsertQueriesFailure0) {
   EXPECT_THROW(
       {
         try {
@@ -113,7 +129,9 @@ TEST(ParserTest, InsertQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, InsertQueriesFailure1) {
   EXPECT_THROW(
       {
         try {
@@ -128,17 +146,21 @@ TEST(ParserTest, InsertQueries) {
       std::runtime_error);
 }
 
-TEST(ParserTest, ExprParsing) {
+TEST(ParserTest, ExprParsingSuccess0) {
   auto tokens = sdb::ReadInputQuery("( col1 == 100 )");
   size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseExpression(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery("( col1 > 100 )");
-  index = 0;
+TEST(ParserTest, ExprParsingSuccess1) {
+  auto tokens = sdb::ReadInputQuery("( col1 > 100 )");
+  size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseExpression(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery(" col1 > 100 )");
-  index = 0;
+TEST(ParserTest, ExprParsingFailure0) {
+  auto tokens = sdb::ReadInputQuery(" col1 > 100 )");
+  size_t index = 0;
   EXPECT_THROW(
       {
         try {
@@ -151,9 +173,11 @@ TEST(ParserTest, ExprParsing) {
         }
       },
       std::runtime_error);
+}
 
-  tokens = sdb::ReadInputQuery(" (  > 100 )");
-  index = 0;
+TEST(ParserTest, ExprParsingFailure1) {
+  auto tokens = sdb::ReadInputQuery(" (  > 100 )");
+  size_t index = 0;
   EXPECT_THROW(
       {
         try {
@@ -165,9 +189,11 @@ TEST(ParserTest, ExprParsing) {
         }
       },
       std::runtime_error);
+}
 
-  tokens = sdb::ReadInputQuery(" ( col1 100 )");
-  index = 0;
+TEST(ParserTest, ExprParsingFailure2) {
+  auto tokens = sdb::ReadInputQuery(" ( col1 100 )");
+  size_t index = 0;
   EXPECT_THROW(
       {
         try {
@@ -180,9 +206,11 @@ TEST(ParserTest, ExprParsing) {
         }
       },
       std::runtime_error);
+}
 
-  tokens = sdb::ReadInputQuery(" ( col1 <  )");
-  index = 0;
+TEST(ParserTest, ExprParsingFailure3) {
+  auto tokens = sdb::ReadInputQuery(" ( col1 <  )");
+  size_t index = 0;
   EXPECT_THROW(
       {
         try {
@@ -194,9 +222,11 @@ TEST(ParserTest, ExprParsing) {
         }
       },
       std::runtime_error);
+}
 
-  tokens = sdb::ReadInputQuery(" ( col1 < 100");
-  index = 0;
+TEST(ParserTest, ExprParsingFailure4) {
+  auto tokens = sdb::ReadInputQuery(" ( col1 < 100");
+  size_t index = 0;
   EXPECT_THROW(
       {
         try {
@@ -211,30 +241,41 @@ TEST(ParserTest, ExprParsing) {
       std::runtime_error);
 }
 
-TEST(ParserTest, WhereClause) {
+TEST(ParserTest, WhereClauseSuccess0) {
   auto tokens = sdb::ReadInputQuery("where ( col1 == 100 )");
   size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseWhereClause(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery("where ( ( col1 == 100 ) and ( col2 == 50 ) )");
-  index = 0;
+TEST(ParserTest, WhereClauseSuccess1) {
+  auto tokens =
+      sdb::ReadInputQuery("where ( ( col1 == 100 ) and ( col2 == 50 ) )");
+  size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseWhereClause(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery(
+TEST(ParserTest, WhereClauseSuccess2) {
+  auto tokens = sdb::ReadInputQuery(
       "where ( ( ( col1 == 100 ) and ( col2 == lol ) ) or ( col3 != 50 ) )");
-  index = 0;
+  size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseWhereClause(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery(
+TEST(ParserTest, WhereClauseSuccess3) {
+  auto tokens = sdb::ReadInputQuery(
       "where ( ( ( col1 == 100 ) and ( col2 == lol ) ) or "
       "( ( col3 != 50 ) and ( col4 > 11 ) ) )");
-  index = 0;
+  size_t index = 0;
   EXPECT_NO_THROW(sdb::ParseWhereClause(tokens, index));
+}
 
-  tokens = sdb::ReadInputQuery("where ( ( ( col1 == 100 ) ) )");
-  index = 0;
+TEST(ParserTest, WhereClauseFailure4) {
+  auto tokens = sdb::ReadInputQuery("where ( ( ( col1 == 100 ) ) )");
+  size_t index = 0;
   EXPECT_THROW(sdb::ParseWhereClause(tokens, index), std::runtime_error);
+}
 
+TEST(ParserTest, WhereClauseFailure5) {
   EXPECT_THROW(
       {
         try {
@@ -249,7 +290,9 @@ TEST(ParserTest, WhereClause) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, WhereClauseFailure6) {
   EXPECT_THROW(
       {
         try {
@@ -265,7 +308,9 @@ TEST(ParserTest, WhereClause) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, WhereClauseFailure7) {
   EXPECT_THROW(
       {
         try {
@@ -281,7 +326,9 @@ TEST(ParserTest, WhereClause) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, WhereClauseFailure8) {
   EXPECT_THROW(
       {
         try {
@@ -300,17 +347,23 @@ TEST(ParserTest, WhereClause) {
       std::runtime_error);
 }
 
-TEST(ParserTest, UpdateQueries) {
+TEST(ParserTest, UpdateQueriesSuccess0) {
   EXPECT_NO_THROW(sdb::ParseInputQuery(
       "Update random_table values col1 100 col2 200 where ( col1 < 100 )"));
+}
 
+TEST(ParserTest, UpdateQueriesSuccess1) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Update random_table values col1 100 col2 200"));
+}
 
+TEST(ParserTest, UpdateQueriesSuccess2) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Update random_table values col1 100 col2 200 where "
                            "( ( col1 < 100 ) and ( col2 != lol ) )"));
+}
 
+TEST(ParserTest, UpdateQueriesFailure0) {
   EXPECT_THROW(
       {
         try {
@@ -323,7 +376,9 @@ TEST(ParserTest, UpdateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, UpdateQueriesFailure1) {
   EXPECT_THROW(
       {
         try {
@@ -336,7 +391,9 @@ TEST(ParserTest, UpdateQueries) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, UpdateQueriesFailure2) {
   EXPECT_THROW(
       {
         try {
@@ -351,17 +408,25 @@ TEST(ParserTest, UpdateQueries) {
       std::runtime_error);
 }
 
-TEST(ParserTest, SelectQuery) {
+TEST(ParserTest, SelectQuerySuccess0) {
   EXPECT_NO_THROW(sdb::ParseInputQuery("select col1 col2 from some_table"));
+}
 
+TEST(ParserTest, SelectQuerySuccess1) {
   EXPECT_NO_THROW(sdb::ParseInputQuery("select * from some_table"));
+}
 
+TEST(ParserTest, SelectQuerySuccess2) {
   EXPECT_NO_THROW(sdb::ParseInputQuery(
       "select col1 col2 from some_table where ( col1 > 100 )"));
+}
 
+TEST(ParserTest, SelectQuerySuccess3) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("select * from some_table where ( col1 > 100 )"));
+}
 
+TEST(ParserTest, SelectQueryFailure0) {
   EXPECT_THROW(
       {
         try {
@@ -375,7 +440,9 @@ TEST(ParserTest, SelectQuery) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, SelectQueryFailure1) {
   EXPECT_THROW(
       {
         try {
@@ -387,7 +454,9 @@ TEST(ParserTest, SelectQuery) {
         }
       },
       std::runtime_error);
+}
 
+TEST(ParserTest, SelectQueryFailure2) {
   EXPECT_THROW(
       {
         try {
@@ -401,10 +470,12 @@ TEST(ParserTest, SelectQuery) {
       std::runtime_error);
 }
 
-TEST(ParserTest, JoinQueries) {
+TEST(ParserTest, JoinQueriesSuccess0) {
   EXPECT_NO_THROW(sdb::ParseInputQuery(
       "Select * from t1 join t2 on ( t1.col1 == t2.col2 )"));
+}
 
+TEST(ParserTest, JoinQueriesSuccess1) {
   EXPECT_NO_THROW(
       sdb::ParseInputQuery("Select * from t1 join t2 on ( t1.col1 == t2.col2 ) "
                            "where ( ( t1.col1 > 100 ) and ( t2.col2 < 50 ) )"));

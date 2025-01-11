@@ -1,65 +1,16 @@
 #include "operators/read_operator.h"
 
-#include <cstdint>
 #include <fstream>
 #include <future>
 #include <memory>
 #include <stdexcept>
 
 #include "data_types.h"
-// #include "json/json.h"
+#include "json.hpp"
+#include "parser.hpp"
 
 namespace sdb {
-
-template <>
-std::unique_ptr<BaseColumn> GetColumn<int64_t>(const sjp::Json &data,
-                                               const size_t size) {
-  std::vector<int64_t> vec;
-  vec.reserve(size);
-
-  assert(data.Size() == size &&
-         "ReadOperator: Number of columns don't match given size\n");
-
-  for (int i = 0; i < data.Size(); ++i) {
-    vec.push_back(static_cast<int64_t>(*data.Get(i)->Get<double>()));
-  }
-
-  return std::make_unique<Int64Column>(size, std::move(vec));
-}
-
-template <>
-std::unique_ptr<BaseColumn> GetColumn<double>(const sjp::Json &data,
-                                              const size_t size) {
-  std::vector<double> vec;
-  vec.reserve(size);
-
-  assert(data.Size() == size &&
-         "ReadOperator: Number of columns don't match given size\n");
-
-  for (int i = 0; i < data.Size(); ++i) {
-    vec.push_back(*data.Get(i)->Get<double>());
-  }
-
-  return std::make_unique<DoubleColumn>(size, std::move(vec));
-}
-
-template <>
-std::unique_ptr<BaseColumn> GetColumn<std::string>(const sjp::Json &data,
-                                                   const size_t size) {
-  std::vector<std::string> vec;
-  vec.reserve(size);
-
-  assert(data.Size() == size &&
-         "ReadOperator: Number of columns don't match given size\n");
-
-  for (int i = 0; i < data.Size(); ++i) {
-    vec.push_back(*data.Get(i)->Get<std::string>());
-  }
-
-  return std::make_unique<StringColumn>(size, std::move(vec));
-}
-
-void ReadOperator::ReadTable() {
+void JsonReader::ReadTable() {
   std::ifstream ifs;
   ifs.open(file_name);
 
@@ -93,9 +44,9 @@ void ReadOperator::ReadTable() {
 
     std::vector<std::future<std::unique_ptr<BaseColumn>>> tasks;
     for (size_t i = 0; i < col_names.size(); ++i) {
-      tasks.push_back(std::async(std::launch::async, GetColumnValues,
-                                 *data.Get("data")->Get(col_names[i]),
-                                 col_types[i], nrows));
+      tasks.push_back(std::async(
+          std::launch::async, &JsonReader::GetColumnValues, this,
+          *data.Get("data")->Get(col_names[i]), col_types[i], nrows));
     }
 
     for (auto &task : tasks) {
@@ -111,16 +62,16 @@ void ReadOperator::ReadTable() {
   }
 }
 
-std::unique_ptr<BaseColumn> GetColumnValues(const sjp::Json &data,
-                                            const Data_Type type,
-                                            const size_t size) {
+std::unique_ptr<BaseColumn> JsonReader::GetColumnValues(const sjp::Json &data,
+                                                        const Data_Type type,
+                                                        const size_t size) {
   switch (type) {
     case DT_INT:
-      return GetColumn<int64_t>(data, size);
+      return GetColumn<Int64Column, double>(data, size);
     case DT_DOUBLE:
-      return GetColumn<double>(data, size);
+      return GetColumn<DoubleColumn, double>(data, size);
     case DT_STRING:
-      return GetColumn<std::string>(data, size);
+      return GetColumn<StringColumn, std::string>(data, size);
     default:
       throw std::runtime_error("Invalid Type\n");
   }

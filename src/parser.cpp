@@ -61,8 +61,8 @@ Operator_Vec ParseJoinClause(Token_Vector &tokens, size_t &index) {
 
   // the order should be this
   // the join operator implicity assumes index - 0 for left table
-  operators.push_back(std::make_unique<ReadOperator>(jsm.left_table));
-  operators.push_back(std::make_unique<ReadOperator>(jsm.right_table));
+  operators.push_back(std::make_unique<JsonReader>(jsm.left_table));
+  operators.push_back(std::make_unique<JsonReader>(jsm.right_table));
   operators.push_back(std::make_unique<JoinOperator>(
       jsm.left_table, jsm.right_table, jsm.left_column, jsm.right_column));
 
@@ -190,7 +190,7 @@ Operator_Vec ParseUpdateQuery(Token_Vector &tokens, size_t &index) {
     throw std::runtime_error("Failed to parse update query\n");
   }
 
-  operators.push_back(std::make_unique<ReadOperator>(usm.table_name));
+  operators.push_back(std::make_unique<JsonReader>(usm.table_name));
 
   // TODO:
   // Update Op
@@ -198,7 +198,8 @@ Operator_Vec ParseUpdateQuery(Token_Vector &tokens, size_t &index) {
   operators.push_back(std::make_unique<UpdateOperator>(
       usm.col_names, usm.col_values, std::move(op)));
 
-  operators.push_back(std::make_unique<JsonWriter>());
+  // operators.push_back(std::make_unique<JsonWriter>());
+  operators.push_back(std::make_unique<FlatWriter>());
 
   return operators;
 }
@@ -237,7 +238,7 @@ Operator_Vec ParseSelectQuery(Token_Vector &tokens, size_t &index) {
   }
 
   if (!ssm.join_clause) {
-    operators.push_back(std::make_unique<ReadOperator>(ssm.table_name));
+    operators.push_back(std::make_unique<JsonReader>(ssm.table_name));
   } else {
     operators = std::move(ssm.join_ops);
   }
@@ -276,7 +277,8 @@ Operator_Vec ParseCreateQuery(Token_Vector &tokens, size_t &index) {
   operators.push_back(std::make_unique<CreateOperator>(
       csm.table_name, csm.col_names, csm.col_types));
 
-  operators.push_back(std::make_unique<JsonWriter>());
+  // operators.push_back(std::make_unique<JsonWriter>());
+  operators.push_back(std::make_unique<FlatWriter>());
 
   return operators;
 }
@@ -296,9 +298,10 @@ Operator_Vec ParseInsertQuery(Token_Vector &tokens, size_t &index) {
     throw std::runtime_error("Failed to parse insert query\n");
   }
 
-  operators.push_back(std::make_unique<ReadOperator>(ism.table_name));
+  operators.push_back(std::make_unique<JsonReader>(ism.table_name));
   operators.push_back(std::make_unique<InsertOperator>(ism.col_values));
-  operators.push_back(std::make_unique<JsonWriter>());
+  // operators.push_back(std::make_unique<JsonWriter>());
+  operators.push_back(std::make_unique<FlatWriter>());
 
   return operators;
 }

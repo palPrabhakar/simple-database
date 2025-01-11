@@ -1,7 +1,9 @@
 #pragma once
 
 #include <memory>
+#include <stdexcept>
 
+#include "columns.h"
 #include "data_types.h"
 #include "operator.h"
 
@@ -20,8 +22,25 @@ class CreateOperator : public Operator {
     assert(column_names.size() == column_types.size() &&
            "CreateOperator column_names.size() != column_types.size()");
 
-    tables.push_back(std::make_unique<Table>(
-        column_names.size(), 0, table_name, column_names, column_types));
+    tables.push_back(std::make_unique<Table>(column_names.size(), 0, table_name,
+                                             column_names, column_types));
+
+    size_t tidx = tables.size() - 1;
+    for (size_t i = 0; i < column_names.size(); ++i) {
+      switch (column_types[i]) {
+        case DT_INT: {
+          tables[tidx]->SetColumn(i, std::make_unique<Int64Column>(0));
+        } break;
+        case DT_DOUBLE: {
+          tables[tidx]->SetColumn(i, std::make_unique<DoubleColumn>(0));
+        } break;
+        case DT_STRING: {
+          tables[tidx]->SetColumn(i, std::make_unique<StringColumn>(0));
+        } break;
+        default:
+          throw std::runtime_error("Invalid column type - Create Operator\n");
+      }
+    }
   }
 
  private:

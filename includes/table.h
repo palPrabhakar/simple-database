@@ -82,7 +82,7 @@ class Table {
     return type_col[col];
   }
 
- private:
+ // private:
   size_t n_cols;
   size_t n_rows;
   std::string table_name;

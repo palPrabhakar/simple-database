@@ -5,16 +5,15 @@
 #include <memory>
 #include <stdexcept>
 
+#include "columns.h"
 #include "data_types.h"
 #include "json.hpp"
 #include "parser.hpp"
 
 namespace sdb {
 void JsonReader::ReadTable() {
-  std::ifstream ifs;
-  ifs.open(file_name);
-
   try {
+    std::ifstream ifs(file_name);
     auto parser = sjp::Parser(ifs);
     auto data = parser.Parse();
 
@@ -74,6 +73,82 @@ std::unique_ptr<BaseColumn> JsonReader::GetColumnValues(const sjp::Json &data,
       return GetColumn<StringColumn, std::string>(data, size);
     default:
       throw std::runtime_error("Invalid Type\n");
+  }
+}
+
+void FlatReader::ReadTable() {
+  try {
+    std::ifstream ifs(file_name);
+
+    size_t len;
+    ifs.read(reinterpret_cast<char *>(&len), sizeof(len));
+    std::string table_name;
+    table_name.resize(len);
+    ifs.read(table_name.data(), len);
+
+    size_t ncols;
+    ifs.read(reinterpret_cast<char *>(&ncols), sizeof(ncols));
+
+    size_t nrows;
+    ifs.read(reinterpret_cast<char *>(&nrows), sizeof(nrows));
+
+    std::vector<Data_Type> col_types(ncols);
+    ifs.read(reinterpret_cast<char *>(col_types.data()), sizeof(int) * ncols);
+
+    std::vector<std::string> col_names;
+    col_names.reserve(ncols);
+    for (int i = 0; i < ncols; ++i) {
+      size_t len;
+      ifs.read(reinterpret_cast<char *>(&len), sizeof(len));
+      std::string col_name;
+      col_name.resize(len);
+      ifs.read(col_name.data(), len);
+      col_names.push_back(std::move(col_name));
+    }
+
+    auto tidx = tables.size();
+    tables.push_back(
+        std::make_unique<Table>(ncols, nrows, std::move(table_name),
+                                std::move(col_names), std::move(col_types)));
+
+    for (size_t i = 0; i < ncols; ++i) {
+      switch (tables[tidx]->GetColumnType(i)) {
+        case DT_INT: {
+          std::vector<sINT::type> vec;
+          vec.resize(nrows);
+          ifs.read(reinterpret_cast<char *>(vec.data()),
+                   sizeof(sINT::type) * nrows);
+          tables[tidx]->SetColumn(
+              i, std::make_unique<Int64Column>(nrows, std::move(vec)));
+        } break;
+        case DT_DOUBLE: {
+          std::vector<sDOUBLE::type> vec;
+          vec.resize(nrows);
+          ifs.read(reinterpret_cast<char *>(vec.data()),
+                   sizeof(sINT::type) * nrows);
+          tables[tidx]->SetColumn(
+              i, std::make_unique<DoubleColumn>(nrows, std::move(vec)));
+        } break;
+        case DT_STRING: {
+          std::vector<sSTRING::type> vec;
+          vec.reserve(nrows);
+          for (size_t i = 0; i < nrows; ++i) {
+            size_t len;
+            ifs.read(reinterpret_cast<char *>(&len), sizeof(len));
+            std::string col_name;
+            col_name.resize(len);
+            ifs.read(col_name.data(), len);
+            vec.push_back(std::move(col_name));
+          }
+          tables[tidx]->SetColumn(
+              i, std::make_unique<StringColumn>(nrows, std::move(vec)));
+        } break;
+        default:
+          throw std::runtime_error("Invalid column data type - FlatReader\n");
+      }
+    }
+  } catch (std::exception &e) {
+    throw e;
   }
 }
 }  // namespace sdb

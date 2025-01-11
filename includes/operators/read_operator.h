@@ -57,7 +57,11 @@ class JsonReader : public ReadOperator<JsonReader> {
 
 class FlatReader : public ReadOperator<FlatReader> {
  public:
-  void ReadTable() {}
+  FlatReader(std::string fname)
+      : ReadOperator(std::format(
+            "/home/pal/workspace/simple-database/tables/{}.sdb", fname)) {}
+
+  void ReadTable();
 };
 
 }  // namespace sdb
